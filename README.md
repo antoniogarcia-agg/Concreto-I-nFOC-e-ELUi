@@ -3,7 +3,7 @@
 Este repositório contém códigos em MATLAB desenvolvidos para resolver problemas de Concreto Estrutural I, envolvendo análise de seções em nFOC, conforme a disciplina EDI38 do ITA.
 
 ## Como usar?
-- Ler o documento Instruções (2).pdf, ele é a explicação mais prática e completa do uso dos códigos
+- Ler o documento Instruções (3).pdf, ele é a explicação mais prática e completa do uso dos códigos
 
 ## Linguagens e Ferramentas
 - MATLAB
