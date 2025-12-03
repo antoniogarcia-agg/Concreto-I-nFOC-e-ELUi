@@ -11,12 +11,12 @@ Este repositório contém códigos em MATLAB desenvolvidos para resolver problem
 
 ## Quais códigos usar para cada tipo de problema?
 
-nFOC
+### nFOC
 1. Cálculo de esforços resultantes - esforcos.m
 2. Verificação de sações transversais - verificacao_nFOC.m
 3. Dimensionamento de seções transversais - dimensionamento_nFOC.m
 
-ELUi
+### ELUi
 4. Verificação de estabilidade de pilares - verificapilar.m
 5. 
 6. 
