@@ -9,6 +9,19 @@ Este repositório contém códigos em MATLAB desenvolvidos para resolver problem
 2. Altere os parâmetros da seção no início do script
 3. Atenção com códigos que não são funções: geradores de diagramas e plotagem de seções transversais com a linha neutra
 
+## Quais códigos usar para cada tipo de problema?
+
+nFOC
+1. Cálculo de esforços resultantes - esforcos.m
+2. Verificação de sações transversais - verificacao_nFOC.m
+3. Dimensionamento de seções transversais - dimensionamento_nFOC.m
+
+ELUi
+4. Verificação de estabilidade de pilares - verificapilar.m
+5. 
+6. 
+7. 
+
 ## Linguagens e Ferramentas
 - MATLAB
 
