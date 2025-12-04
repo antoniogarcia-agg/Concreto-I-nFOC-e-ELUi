@@ -41,5 +41,4 @@ function plota_teq(classe_concreto, classe_aco, gamac, gamas, e, diametro_aco, x
     ylabel('Momento');
     title('Trajetória de equilíbrio para uma excentricidade fixa');
     grid on;
-
 end
