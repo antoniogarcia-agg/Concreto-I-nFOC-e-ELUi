@@ -8,7 +8,7 @@ function pilar_padrao(classe_concreto, classe_aco, gamac, gamas, diametro_aco, x
 
     % Tolerância e incremento
     tol = 1e-10;
-    incremento = 1e-7;
+    incremento = 1e-5;
     
     le = 2*z;
     c = (le/pi)^2;
@@ -56,4 +56,5 @@ function pilar_padrao(classe_concreto, classe_aco, gamac, gamas, diametro_aco, x
     else
         fprintf("O pilar não se equilibra.")
     end
+
 end
