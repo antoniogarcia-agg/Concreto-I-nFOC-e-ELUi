@@ -38,6 +38,12 @@ function compressao_uniforme(classe_concreto, classe_aco, gamac, gamas, diametro
     
     [difference, j] = min(abs(Ncr(1:i-1)-Nr(1:i-1)));
     
-    fprintf("A normal crítica da seção é Ncr = %.4f MN", Ncr(j));
+    fprintf("A normal crítica da seção é Ncr = %.4f MN \n", Ncr(j));
 
+    N_max = min(Ncr(j), Nr(i-1));
+    disp(N_max);
+    m = 100;
+    prec = 1e-10;
+    [~, ~, ~, ~, ~, e0crit, kcrit] = verifica_pilar(classe_concreto, classe_aco, gamac, gamas, N_max, 0, diametro_aco, x, y, xs, ys, m, z, prec);
+    fprintf("Distribuição de deformações na seção de base com a carga máxima Nd = %f MN: e0 = %f, k = %f 1/m. \n", N_max, e0crit, kcrit);
 end

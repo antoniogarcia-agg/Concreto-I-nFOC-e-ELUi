@@ -19,7 +19,7 @@ function plota_teq(classe_concreto, classe_aco, gamac, gamas, e, diametro_aco, x
         for i=2:n_passos
             cont = cont + 1;
             N = N + deltaN;
-            [verificacao, f, ~, ~, ~] = verifica_pilar(classe_concreto, classe_aco, gamac, gamas, N, e*N, diametro_aco, x, y, xs, ys, m, z, prec);
+            [verificacao, f, ~, ~, ~, ~, ~] = verifica_pilar(classe_concreto, classe_aco, gamac, gamas, N, e*N, diametro_aco, x, y, xs, ys, m, z, prec);
             if verificacao == true
                 Nd(cont) = N;
                 Md(cont) = N*(e+f);
@@ -33,7 +33,7 @@ function plota_teq(classe_concreto, classe_aco, gamac, gamas, e, diametro_aco, x
         deltaN = deltaN/10;
     end
 
-    fprintf("Para a excentricidade %f m, a carga crítica é %f NM.", e, Ncr);
+    fprintf("Para a excentricidade %f m, a carga crítica é %f MN.\n", e, Ncr);
     % Plotagem  
     figure;
     plot(Nd(1:cont), Md(1:cont));
@@ -41,4 +41,8 @@ function plota_teq(classe_concreto, classe_aco, gamac, gamas, e, diametro_aco, x
     ylabel('Momento');
     title('Trajetória de equilíbrio para uma excentricidade fixa');
     grid on;
+
+    % Seção mais solicitada
+    [~, ~, ~, ~, ~, e0crit, kcrit] = verifica_pilar(classe_concreto, classe_aco, gamac, gamas, Nd(cont), Nd(cont)*e, diametro_aco, x, y, xs, ys, m, z, prec);
+    fprintf("Distribuição de deformações na seção de base com a normal máxima Nd = %f MN: e0 = %f, k = %f 1/m. \n", Nd(cont), e0crit, kcrit);
 end

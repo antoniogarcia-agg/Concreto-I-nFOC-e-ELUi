@@ -1,5 +1,5 @@
 %% Dimensionamento de área de aço de seções transversais nFOC | Concreto I | Antônio Garcia
-function [At, d, e0, kx, ky] = dimensionamento_nFOC(classe_concreto, classe_aco, x_vertices, y_vertices, x_aco, y_aco, gamac, gamas, Nd, Mxd, Myd)
+function dimensionamento_nFOC(classe_concreto, classe_aco, x_vertices, y_vertices, x_aco, y_aco, gamac, gamas, Nd, Mxd, Myd, item)
     % precisão de cálculo e máximo de iterações
     maxiter = 1000;
     prec = 1e-13;
@@ -16,9 +16,38 @@ function [At, d, e0, kx, ky] = dimensionamento_nFOC(classe_concreto, classe_aco,
     [elu, ~, e0, kx, ky] = verificacao_nFOC(classe_concreto, classe_aco, x_vertices, y_vertices, x_aco, y_aco, diametro_aco, gamac, gamas, Nd, Mxd, Myd);
     if elu == true
         fprintf('DIMENSIONAMENTO COM ÁREA MÍNIMA POSSÍVEL, Área = 0 \n');
-        fprintf('configuração de deformações (epsilon0, kx, ky) = (%f,%f,%f)\n', e0, kx,ky);
         d = d_aco(0, n_barras);
-        At = 0;
+        for i = 1:n_barras
+            diametro_aco(i) = d;
+        end
+        fprintf('O diâmetro comercial mais adequado é %.4f m. \n', d);
+        A_d = d^2/4*pi*n_barras;
+        fprintf('A área mínima de aço necessária é %f cm^2! \n', A_d*1e4);
+        [~, ~, e0, kx, ky] = verificacao_nFOC(classe_concreto, classe_aco, x_vertices, y_vertices, x_aco, y_aco, diametro_aco, gamac, gamas, Nd, Mxd, Myd);
+        fprintf('configuração de deformações (epsilon0, kx, ky) = (%f,%f,%f)\n', e0, kx,ky);
+        % Plotagem
+        figure; 
+
+        plot(x_vertices,y_vertices,'-r');
+        xlabel('x');
+        ylabel('y');
+        title(sprintf('Seção Transversal e LN item %s)', item));
+        hold on;
+        grid on;    
+        plot(x_aco, y_aco, '.b');
+        v = 0.05; % fator para descentralizar o plot
+        
+        ylim([min(y_vertices)-v, max(y_vertices)+v]);
+        if abs(kx) < 1e-10
+            if abs(ky) < 1e-10
+            else
+                xLN = -e0/ky;
+                plot([xLN xLN], [min(y_vertices) max(y_vertices)], '--k', 'LineWidth', 1);
+            end
+        else
+            g = @(x) (ky*x + e0) / kx;
+            fplot(g, [min(x_vertices)-v, max(x_vertices)+v], '--k', 'LineWidth', 1);
+        end
         return
     else
         for i = 1:n_barras
@@ -57,8 +86,34 @@ function [At, d, e0, kx, ky] = dimensionamento_nFOC(classe_concreto, classe_aco,
                 diametro_aco(i) = d;
             end
             [~, ~, e0, kx, ky] = verificacao_nFOC(classe_concreto, classe_aco, x_vertices, y_vertices, x_aco, y_aco, diametro_aco, gamac, gamas, Nd, Mxd, Myd);
-            fprintf('O diâmetro comercial mais próximo é %.4f m\n', d);
+            fprintf('O diâmetro comercial mais próximo é %.4f m. \n', d);
+            A_d = d^2/4*pi*n_barras;
+            fprintf('A área mínima de aço necessária é %f cm^2! \n', A_d*1e4);
             fprintf('Sua configuração de deformações para o diâmetro comercial mais próximo (epsilon0, kx, ky) = (%f,%f,%f)\n', e0, kx, ky);
+            
+            % Plotagem
+            figure; 
+
+            plot(x_vertices,y_vertices,'-r');
+            xlabel('x');
+            ylabel('y');
+            title(sprintf('Seção Transversal e LN item %s)', item));
+            hold on;
+            grid on;    
+            plot(x_aco, y_aco, '.b');
+            v = 0.05; % fator para descentralizar o plot
+            
+            ylim([min(y_vertices)-v, max(y_vertices)+v]);
+            if abs(kx) < 1e-10
+                if abs(ky) < 1e-10
+                else
+                    xLN = -e0/ky;
+                    plot([xLN xLN], [min(y_vertices) max(y_vertices)], '--k', 'LineWidth', 1);
+                end
+            else
+                g = @(x) (ky*x + e0) / kx;
+                fplot(g, [min(x_vertices)-v, max(x_vertices)+v], '--k', 'LineWidth', 1);
+            end
             return
         end
         iter = iter + 1;
